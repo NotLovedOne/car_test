@@ -30,8 +30,8 @@ public class AuthService {
             throw new RuntimeException("Invalid credentials");
         }
 
-        String accessToken = jwtUtil.generateToken(user.getUsername(), true);
-        String refreshToken = jwtUtil.generateToken(user.getUsername(), false);
+        String accessToken = jwtUtil.generateToken(user.getUsername(),user.getRole(), true);
+        String refreshToken = jwtUtil.generateToken(user.getUsername(),user.getRole(), false);
 
         user.setRefreshToken(refreshToken);
         userRepository.save(user);
@@ -61,7 +61,7 @@ public class AuthService {
             throw new RuntimeException("Refresh token not associated with any user");
         }
 
-        String accessToken = jwtUtil.generateToken(user.getUsername(), true);
+        String accessToken = jwtUtil.generateToken(user.getUsername(),user.getRole(), true);
 
         Map<String, String> tokens = new HashMap<>();
         tokens.put("accessToken", accessToken);

@@ -1,10 +1,5 @@
 package org.example.car_test.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-
 public class LoginRequest {
     private String username;
     private String password;
