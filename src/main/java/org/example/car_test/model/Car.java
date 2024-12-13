@@ -6,10 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.time.Year;
 import java.util.UUID;
-
-import static org.hibernate.grammars.hql.HqlParser.YEAR;
 
 @Entity
 @AllArgsConstructor

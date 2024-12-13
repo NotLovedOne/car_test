@@ -27,7 +27,7 @@ public class JwtUtility {
         User user = userRepository.findByUsername(username);
         return Jwts.builder()
                 .setSubject(username)
-                .claim("role", user.getRole().name()) // Добавляем роль
+                .claim("role", user.getRole().name())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY))
                 .signWith(key, SignatureAlgorithm.HS256)

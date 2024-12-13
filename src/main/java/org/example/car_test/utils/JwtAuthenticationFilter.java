@@ -24,7 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+            throws ServletException, IOException, java.io.IOException {
 
         String authorizationHeader = request.getHeader("Authorization");
 
@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (jwtUtility.validateToken(token)) {
                 String username = jwtUtility.extractUsername(token);
-                String role = jwtUtility.extractRole(token); // Новый метод для извлечения роли
+                String role = jwtUtility.extractRole(token);
 
                 List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
 
@@ -47,6 +47,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (java.io.IOException e) {
+            logger.error("Ошибка аутентификации: {}");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Ошибка аутентификации: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }

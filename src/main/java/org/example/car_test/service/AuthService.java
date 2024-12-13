@@ -26,9 +26,12 @@ public class AuthService {
 
     public Map<String, String> login(String username, String password) {
         User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new IllegalArgumentException("User с такии имененм не найден " + username);
+        }
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+            throw new IllegalArgumentException("неправильные данные для: " + username);
         }
 
         String accessToken = jwtUtil.generateToken(user.getUsername(), true);
@@ -45,6 +48,10 @@ public class AuthService {
     }
 
     public void registerUser(RegistrationRequest registrationRequest) {
+        if (userRepository.findByUsername(registrationRequest.getUsername()) != null) {
+            throw new IllegalArgumentException("User с именем " + registrationRequest.getUsername() + " уже существует.");
+        }
+
         User newUser = new User();
         newUser.setUsername(registrationRequest.getUsername());
         newUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
@@ -52,15 +59,14 @@ public class AuthService {
         userRepository.save(newUser);
     }
 
-
     public Map<String, String> refreshToken(String refreshToken) {
         if (!jwtUtil.validateToken(refreshToken)) {
-            throw new RuntimeException("Invalid or expired refresh token");
+            throw new IllegalArgumentException("Invalid or expired refresh token.");
         }
 
         User user = userRepository.findByRefreshToken(refreshToken);
         if (user == null) {
-            throw new RuntimeException("Refresh token not associated with any user");
+            throw new IllegalArgumentException("Refresh token not associated with any user.");
         }
 
         String accessToken = jwtUtil.generateToken(user.getUsername(), true);
@@ -70,6 +76,6 @@ public class AuthService {
 
         return tokens;
     }
-
 }
+
 

@@ -2,7 +2,6 @@ package org.example.car_test.service;
 
 import org.example.car_test.model.Car;
 import org.example.car_test.repository.CarRepository;
-import org.springframework.expression.ExpressionException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,11 +16,16 @@ public class CarService {
     }
 
     public List<Car> getAllCars() {
-        return carRepository.findAll();
+        List<Car> cars = carRepository.findAll();
+        if (cars.isEmpty()) {
+            throw new IllegalStateException("машин нету).");
+        }
+        return cars;
     }
 
     public Car getCarById(UUID id) {
-        return carRepository.findById(id).orElseThrow(() -> new ExpressionException("Car not found"));
+        return carRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("машина с таким айди не найден: " + id));
     }
 
     public Car createCar(Car car) {
@@ -30,6 +34,12 @@ public class CarService {
 
     public Car updateCar(UUID id, Car car) {
         Car existingCar = getCarById(id);
+
+        if (!existingCar.getVin().equals(car.getVin()) &&
+                carRepository.findAll().stream().anyMatch(c -> c.getVin().equals(car.getVin()))) {
+            throw new IllegalArgumentException("машина с вин " + car.getVin() + " уже существует.");
+        }
+
         existingCar.setMake(car.getMake());
         existingCar.setModel(car.getModel());
         existingCar.setYear(car.getYear());
@@ -39,6 +49,10 @@ public class CarService {
     }
 
     public void deleteCar(UUID id) {
+        if (!carRepository.existsById(id)) {
+            throw new IllegalArgumentException("машина с айди " + id + " не существует.");
+        }
         carRepository.deleteById(id);
     }
 }
+
