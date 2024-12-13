@@ -9,7 +9,10 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.Year;
 import java.util.UUID;
+
+import static org.hibernate.grammars.hql.HqlParser.YEAR;
 
 @Entity
 @AllArgsConstructor
@@ -22,6 +25,21 @@ public class Car {
 
     @NotBlank
     private String make;
+
+    @NotBlank
+    private String model;
+
+    @Min(1886)
+    @Max(YEAR)
+    private int year;
+
+    @Positive
+    private double price;
+
+    @NotNull
+    @Size(min = 17, max = 17)
+    @Column(unique = true)
+    private String vin;
 
     public UUID getId() {
         return id;
@@ -72,20 +90,5 @@ public class Car {
     public void setVin(@NotNull @Size(min = 17, max = 17) String vin) {
         this.vin = vin;
     }
-
-    @NotBlank
-    private String model;
-
-    @Min(1886)
-    private int year;
-
-    @Positive
-    private double price;
-
-    @NotNull
-    @Size(min = 17, max = 17)
-    @Column(unique = true)
-    private String vin;
-
 }
 

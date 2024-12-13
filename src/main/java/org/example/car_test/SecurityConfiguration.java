@@ -20,8 +20,8 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login", "/auth/register").permitAll()
-                        .requestMatchers(GET, "/cars/**").hasRole("USER")
-                        .anyRequest().hasRole("ADMIN"));
+                        .requestMatchers(GET, "/cars/**").hasAuthority("ROLE_USER")
+                        .anyRequest().hasAuthority("ROLE_ADMIN"));
         return http.build();
     }
 
@@ -30,9 +30,9 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        return new GrantedAuthorityDefaults("");
-    }
+//    @Bean
+//    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+//        return new GrantedAuthorityDefaults("");
+//    }
 }
 

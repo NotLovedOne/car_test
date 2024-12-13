@@ -18,6 +18,11 @@ public class User {
     private String username;
     private String password;
 
+    private String refreshToken;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     public Long getId() {
         return id;
     }
@@ -58,7 +63,5 @@ public class User {
         this.role = role;
     }
 
-    private String refreshToken;
-    @Enumerated(EnumType.STRING)
-    private Role role;
+
 }
