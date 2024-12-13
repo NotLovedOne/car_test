@@ -1,9 +1,6 @@
 package org.example.car_test.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -17,6 +14,7 @@ import static org.hibernate.grammars.hql.HqlParser.YEAR;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "cars", schema = "public")
 public class Car {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -30,7 +28,7 @@ public class Car {
     private String model;
 
     @Min(1886)
-    @Max(YEAR)
+//    @Max(YEAR)
     private int year;
 
     @Positive
@@ -41,54 +39,54 @@ public class Car {
     @Column(unique = true)
     private String vin;
 
-    public UUID getId() {
-        return id;
-    }
+        public UUID getId() {
+            return id;
+        }
 
-    public void setId(UUID id) {
-        this.id = id;
-    }
+        public void setId(UUID id) {
+            this.id = id;
+        }
 
-    public @NotBlank String getMake() {
-        return make;
-    }
+        public @NotBlank String getMake() {
+            return make;
+        }
 
-    public void setMake(@NotBlank String make) {
-        this.make = make;
-    }
+        public void setMake(@NotBlank String make) {
+            this.make = make;
+        }
 
-    public @NotBlank String getModel() {
-        return model;
-    }
+        public @NotBlank String getModel() {
+            return model;
+        }
 
-    public void setModel(@NotBlank String model) {
-        this.model = model;
-    }
+        public void setModel(@NotBlank String model) {
+            this.model = model;
+        }
 
-    @Min(1886)
-    public int getYear() {
-        return year;
-    }
+        @Min(1886)
+        public int getYear() {
+            return year;
+        }
 
-    public void setYear(@Min(1886) int year) {
-        this.year = year;
-    }
+        public void setYear(@Min(1886) int year) {
+            this.year = year;
+        }
 
-    @Positive
-    public double getPrice() {
-        return price;
-    }
+        @Positive
+        public double getPrice() {
+            return price;
+        }
 
-    public void setPrice(@Positive double price) {
-        this.price = price;
-    }
+        public void setPrice(@Positive double price) {
+            this.price = price;
+        }
 
-    public @NotNull @Size(min = 17, max = 17) String getVin() {
-        return vin;
-    }
+        public @NotNull @Size(min = 17, max = 17) String getVin() {
+            return vin;
+        }
 
-    public void setVin(@NotNull @Size(min = 17, max = 17) String vin) {
-        this.vin = vin;
-    }
+        public void setVin(@NotNull @Size(min = 17, max = 17) String vin) {
+            this.vin = vin;
+        }
 }
 

@@ -4,6 +4,7 @@ import org.example.car_test.dto.RegistrationRequest;
 import org.example.car_test.model.User;
 import org.example.car_test.repository.UserRepository;
 import org.example.car_test.utils.JwtUtility;
+import org.example.car_test.utils.ROLE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,8 @@ public class AuthService {
             throw new RuntimeException("Invalid credentials");
         }
 
-        String accessToken = jwtUtil.generateToken(user.getUsername(),user.getRole(), true);
-        String refreshToken = jwtUtil.generateToken(user.getUsername(),user.getRole(), false);
+        String accessToken = jwtUtil.generateToken(user.getUsername(), true);
+        String refreshToken = jwtUtil.generateToken(user.getUsername(), false);
 
         user.setRefreshToken(refreshToken);
         userRepository.save(user);
@@ -47,9 +48,10 @@ public class AuthService {
         User newUser = new User();
         newUser.setUsername(registrationRequest.getUsername());
         newUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-        newUser.setRole(registrationRequest.getRole());
+        newUser.setRole(ROLE.USER);
         userRepository.save(newUser);
     }
+
 
     public Map<String, String> refreshToken(String refreshToken) {
         if (!jwtUtil.validateToken(refreshToken)) {
@@ -61,7 +63,7 @@ public class AuthService {
             throw new RuntimeException("Refresh token not associated with any user");
         }
 
-        String accessToken = jwtUtil.generateToken(user.getUsername(),user.getRole(), true);
+        String accessToken = jwtUtil.generateToken(user.getUsername(), true);
 
         Map<String, String> tokens = new HashMap<>();
         tokens.put("accessToken", accessToken);

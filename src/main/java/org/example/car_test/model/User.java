@@ -1,10 +1,11 @@
 package org.example.car_test.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.car_test.utils.Role;
+import org.example.car_test.utils.ROLE;
 
 @Entity
 @AllArgsConstructor
@@ -21,7 +22,17 @@ public class User {
     private String refreshToken;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    @NotNull
+    private ROLE role;
+
+    // Getters and Setters
+    public ROLE getRole() {
+        return role;
+    }
+
+    public void setRole(ROLE role) {
+        this.role = role;
+    }
 
     public Long getId() {
         return id;
@@ -53,14 +64,6 @@ public class User {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 
 

@@ -29,19 +29,16 @@ public class CarController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public Car createCar(@Valid @RequestBody Car car) {
         return carService.createCar(car);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public Car updateCar(@PathVariable UUID id, @Valid @RequestBody Car car) {
         return carService.updateCar(id, car);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public void deleteCar(@PathVariable UUID id) {
         carService.deleteCar(id);
     }
