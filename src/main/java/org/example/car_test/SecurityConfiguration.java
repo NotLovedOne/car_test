@@ -19,7 +19,7 @@ public class SecurityConfiguration {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login", "/auth/register").permitAll()
+                        .requestMatchers("/auth/login", "/auth/register", "auth/refresh-token").permitAll()
                         .requestMatchers(GET, "/cars/**").hasAuthority("ROLE_USER")
                         .anyRequest().hasAuthority("ROLE_ADMIN"));
         return http.build();

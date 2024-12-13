@@ -12,7 +12,7 @@ import java.util.Date;
 public class JwtUtility {
     private static final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
     private static final long ACCESS_TOKEN_VALIDITY = 15 *60 * 1000; // 15 minutes
-    private static final long REFRESH_TOKEN_VALIDITY = 15 *60 * 1000; // 7 days
+//    private static final long REFRESH_TOKEN_VALIDITY = 15 *60 * 1000; // 7 days
     private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
 
